@@ -1,0 +1,1 @@
+"""SoulMusic — acoustic package."""
