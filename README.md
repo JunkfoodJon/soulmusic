@@ -84,9 +84,8 @@ python soul_gui.py
 | sounddevice  | ≥ 0.4    | Optional  | Live microphone capture       |
 | matplotlib   | ≥ 3.7    | Optional  | Waveform plots                |
 
-Full dependency list:
-- [`SoulMusic-Open/requirements.txt`](SoulMusic-Open/requirements.txt) — runtime
-- Optional extras listed in the same file under the `[extras]` section
+Full dependency list: [`SoulMusic-Open/requirements.txt`](SoulMusic-Open/requirements.txt) (runtime).
+Optional extras (`pyserial`, `sounddevice`, `matplotlib`) can be installed individually as shown above.
 
 ---
 
