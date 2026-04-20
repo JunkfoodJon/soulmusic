@@ -190,7 +190,7 @@ def run(context: dict) -> None:
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+See [LICENSE](LICENSE).
 
 Copyright (c) 2024 SoulMusic Contributors.
 
