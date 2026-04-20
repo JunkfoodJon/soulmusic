@@ -1,9 +1,40 @@
-# SoulMusic
+<div align="center">
+
+<h1>🎵 SoulMusic</h1>
+
+<p>
+  <img src="https://img.shields.io/badge/OPEN%20SOURCE-%C2%B7%20FREE%20TO%20BUILD%20%C2%B7%20USA%20LEGAL-1a2233?style=for-the-badge&labelColor=1a2233&color=2d4a6e" alt="Open Source · Free to Build · USA Legal" />
+</p>
+
+<h2><strong>Hostile drones cost $300.</strong><br>So does stopping them.</h2>
+
+<p>An open-source acoustic counter-drone system anyone can build from off-the-shelf parts.<br>
+Protection shouldn't only belong to people with defense budgets.</p>
+
+<p>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/See%20the%20Overview-2563EB?style=for-the-badge" alt="See the Overview" /></a>
+  &nbsp;
+  <a href="https://github.com/JunkfoodJon/soulmusic"><img src="https://img.shields.io/badge/View%20on%20GitHub-24292e?style=for-the-badge&logo=github&logoColor=white" alt="View on GitHub" /></a>
+</p>
+
+<br>
+
+<table>
+<tr>
+<td align="center">✅&nbsp; <strong>Total build cost: ~$300</strong> &nbsp;·&nbsp; No special licenses required</td>
+</tr>
+</table>
+
+<br>
 
 [![License: SEUL v2.0](https://img.shields.io/badge/license-SEUL%20v2.0-blue.svg)](LICENSE)
 [![Python ≥ 3.10](https://img.shields.io/badge/python-%E2%89%A53.10-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![Platform: Windows](https://img.shields.io/badge/platform-Windows%2010%2F11-0078D4?logo=windows&logoColor=white)](SoulMusic-Open/build_installer.ps1)
 [![Platform: Linux](https://img.shields.io/badge/platform-Linux-FCC624?logo=linux&logoColor=black)](SoulMusic-Open/install_linux.sh)
+
+</div>
+
+---
 
 > **⚠️ USE AT YOUR OWN RISK.** This software is provided as-is, without warranty of any kind.
 > It has not been validated on all hardware configurations. Verify your local laws before
@@ -19,29 +50,29 @@ without RF emissions.
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
-1. [Screenshots](#screenshots)
-2. [Quick Start](#quick-start)
-3. [Requirements](#requirements)
-4. [Platform Support](#platform-support)
-5. [Installation](#installation)
+1. [📸 Screenshots](#-screenshots)
+2. [⚡ Quick Start](#-quick-start)
+3. [📦 Requirements](#-requirements)
+4. [🖥️ Platform Support](#️-platform-support)
+5. [🛠️ Installation](#️-installation)
    - [Windows](#windows)
    - [Linux](#linux)
    - [Troubleshooting](#troubleshooting)
-6. [Usage](#usage)
-7. [Hardware Overview & Wiring](#hardware-overview--wiring)
-8. [Project Structure](#project-structure)
-9. [Running Tests](#running-tests)
-10. [Plugin API](#plugin-api)
-11. [Contributing](#contributing)
-12. [Known Issues](#known-issues)
-13. [License](#license)
-14. [Disclaimer](#disclaimer)
+6. [🎛️ Usage](#️-usage)
+7. [🔧 Hardware Overview & Wiring](#-hardware-overview--wiring)
+8. [📁 Project Structure](#-project-structure)
+9. [🧪 Running Tests](#-running-tests)
+10. [🔌 Plugin API](#-plugin-api)
+11. [🤝 Contributing](#-contributing)
+12. [⚠️ Known Issues](#️-known-issues)
+13. [📄 License](#-license)
+14. [🚨 Disclaimer](#-disclaimer)
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
 > 📸 **Screenshots wanted!** See [`docs/screenshots/README.md`](docs/screenshots/README.md)
 > for capture guidelines and how to contribute.
@@ -57,7 +88,7 @@ without RF emissions.
 
 ---
 
-## Quick Start
+## ⚡ Quick Start
 
 ```bash
 # Python 3.10+ and pip required
@@ -73,7 +104,7 @@ python soul_gui.py
 
 ---
 
-## Requirements
+## 📦 Requirements
 
 | Package      | Version  | Required? | Purpose                       |
 |--------------|----------|-----------|-------------------------------|
@@ -89,7 +120,7 @@ Optional extras (`pyserial`, `sounddevice`, `matplotlib`) can be installed indiv
 
 ---
 
-## Platform Support
+## 🖥️ Platform Support
 
 | Platform            | Status       | Notes                                  |
 |---------------------|--------------|----------------------------------------|
@@ -104,7 +135,7 @@ Optional extras (`pyserial`, `sounddevice`, `matplotlib`) can be installed indiv
 
 ---
 
-## Installation
+## 🛠️ Installation
 
 ### Windows
 
@@ -169,7 +200,7 @@ python soul_gui.py
 
 ---
 
-## Usage
+## 🎛️ Usage
 
 ### Launching the GUI
 
@@ -198,7 +229,7 @@ The GUI is organised into nine tabs:
 
 ---
 
-## Hardware Overview & Wiring
+## 🔧 Hardware Overview & Wiring
 
 > **Research and educational use only.** High-level descriptions are provided here.
 > For full schematics, see:
@@ -206,7 +237,9 @@ The GUI is organised into nine tabs:
 > - [`SoulMusic-Open/docs/wiring-diagram.md`](SoulMusic-Open/docs/wiring-diagram.md) — full ASCII schematics
 > - [`SoulMusic-Open/ARCHITECTURE.md`](SoulMusic-Open/ARCHITECTURE.md) — system architecture and scientific basis
 
-### Minimum Bench Rig (~$45–$110 USD, excluding host computer)
+### Minimum Bench Rig
+
+> 💰 **~$45–$110 USD** excluding host computer
 
 | # | Component | Role |
 |---|-----------|------|
@@ -235,7 +268,7 @@ Host PC
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 soulmusic/
@@ -275,7 +308,7 @@ soulmusic/
 
 ---
 
-## Running Tests
+## 🧪 Running Tests
 
 All test scripts live in `SoulMusic-Open/`. Run from that directory:
 
@@ -300,7 +333,7 @@ python bench_test.py --help
 
 ---
 
-## Plugin API
+## 🔌 Plugin API
 
 SoulMusic's **Module Loader** tab supports drop-in Python plugins. Any `.py` file
 placed in a `plugins/` directory inside `SoulMusic-Open/` is auto-discovered at
@@ -355,7 +388,7 @@ callables using Python type hints (lower-fidelity, no descriptions or bounds).
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome — bug reports, documentation improvements, new platform
 profiles, and plugin examples are all appreciated.
@@ -393,7 +426,7 @@ python soul_gui.py
 
 ---
 
-## Known Issues
+## ⚠️ Known Issues
 
 | ID       | Severity | Description |
 |----------|----------|-------------|
@@ -402,7 +435,7 @@ python soul_gui.py
 
 ---
 
-## License
+## 📄 License
 
 **SoulMusic Ethical Use License (SEUL) v2.0**
 
@@ -410,14 +443,15 @@ See [`LICENSE`](LICENSE) for the full text.
 
 Copyright (c) 2024–2026 SoulMusic Contributors.
 
-Key points:
-- ✅ Personal, educational, research, and commercial use permitted.
-- ✅ Modification and redistribution permitted with attribution.
-- ❌ Use that causes physical harm to any person is **absolutely prohibited** (Clause C).
+| | |
+|---|---|
+| ✅ | Personal, educational, research, and commercial use permitted |
+| ✅ | Modification and redistribution permitted with attribution |
+| ❌ | Use that causes physical harm to any person is **absolutely prohibited** (Clause C) |
 
 ---
 
-## Disclaimer
+## 🚨 Disclaimer
 
 > **This software is experimental and provided WITHOUT ANY WARRANTY. It has not been
 > validated in the field. ALL bench tests use synthetic audio signals — real-world
