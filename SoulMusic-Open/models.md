@@ -1,1 +1,0 @@
-  ~15 wires total, no soldering required

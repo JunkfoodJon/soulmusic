@@ -1,1 +1,0 @@
-"""SoulMusic — detection package."""
