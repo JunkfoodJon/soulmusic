@@ -13,7 +13,7 @@ Protection shouldn't only belong to people with defense budgets.</p>
 
 <p>
   <a href="#quick-start"><img src="https://img.shields.io/badge/See%20the%20Overview-2563EB?style=for-the-badge" alt="See the Overview" /></a>
-  &nbsp;
+  <br>
   <a href="https://github.com/JunkfoodJon/soulmusic"><img src="https://img.shields.io/badge/View%20on%20GitHub-24292e?style=for-the-badge&logo=github&logoColor=white" alt="View on GitHub" /></a>
 </p>
 
@@ -27,10 +27,14 @@ Protection shouldn't only belong to people with defense budgets.</p>
 
 <br>
 
+<div align="center">
+
 [![License: SEUL v2.0](https://img.shields.io/badge/license-SEUL%20v2.0-blue.svg)](LICENSE)
 [![Python ≥ 3.10](https://img.shields.io/badge/python-%E2%89%A53.10-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![Platform: Windows](https://img.shields.io/badge/platform-Windows%2010%2F11-0078D4?logo=windows&logoColor=white)](SoulMusic-Open/build_installer.ps1)
 [![Platform: Linux](https://img.shields.io/badge/platform-Linux-FCC624?logo=linux&logoColor=black)](SoulMusic-Open/install_linux.sh)
+
+</div>
 
 </div>
 
@@ -193,10 +197,10 @@ python soul_gui.py
 | Symptom | Likely Cause | Fix |
 |---------|-------------|-----|
 | `ModuleNotFoundError: PySide6` | PySide6 not installed | `pip install PySide6` |
-| No serial ports visible in GUI | `pyserial` not installed or device not connected | `pip install pyserial`; check USB cable |
+| No serial ports visible | `pyserial` not installed or device not connected | `pip install pyserial`; check USB cable |
 | Audio interface not detected | `sounddevice` not installed or driver missing | `pip install sounddevice`; reinstall audio drivers |
-| GUI launches but is blank / black | Outdated GPU drivers with OpenGL issues | Update drivers; try `QT_OPENGL=software python soul_gui.py` |
-| `PermissionError` on `/dev/ttyUSB*` (Linux) | User not in `dialout` group | `sudo usermod -aG dialout $USER` then log out and back in |
+| GUI blank / black screen | Outdated GPU drivers (OpenGL) | Update drivers; try `QT_OPENGL=software python soul_gui.py` |
+| `PermissionError` on `/dev/ttyUSB*` | User not in `dialout` group | `sudo usermod -aG dialout $USER`, then re-login |
 
 ---
 
@@ -217,15 +221,15 @@ The GUI is organised into nine tabs:
 
 | Tab | Description |
 |-----|-------------|
-| **Signal Analysis** | Real-time FFT of the microphone or audio interface input; peak detection and frequency annotation |
+| **Signal Analysis** | Real-time FFT of mic/audio input; peak detection and frequency annotation |
 | **Beamforming** | Phased-array delay-and-sum visualisation; steer the receive beam across azimuth/elevation |
-| **Platform ID** | Passive Doppler detection pipeline; matches blade-pass frequency signatures to `PLATFORM_DB` |
+| **Platform ID** | Passive Doppler detection; matches blade-pass frequency signatures to `PLATFORM_DB` |
 | **Emitter** | Waveform generator; configure sweep range, burst duration, Doppler pre-compensation, and output device |
 | **Probe** | Active hardware characterisation; pings the connected MEMS sensor and analyses the reflection |
-| **Bench Test** | Step-by-step guided bench test; wraps `bench_test.py` with a progress view |
-| **Telemetry** | MAVLink feed (optional); displays live position, altitude, and IMU data from a connected flight controller |
+| **Bench Test** | Step-by-step guided bench test wrapping `bench_test.py` with a progress view |
+| **Telemetry** | MAVLink feed (optional); live position, altitude, and IMU data from a flight controller |
 | **Module Loader** | Drop-in Python plugin registry; load custom calculation modules at runtime (see [Plugin API](#plugin-api)) |
-| **Settings** | Audio device selection, serial port, sample rate, and theme |
+| **Settings** | Audio device, serial port, sample rate, and theme |
 
 ---
 
@@ -430,7 +434,7 @@ python soul_gui.py
 
 | ID       | Severity | Description |
 |----------|----------|-------------|
-| BUG-01   | High     | `PLATFORM_DB` maps DJI Mavic 3 / Mini 4 / Matrice 30 → ICM-42688-P. Teardown reports BMI088 as primary gyro. Verify hardware before targeting these platforms. Use `bench_test.py --sweep` on a physical unit to confirm. |
+| BUG-01   | High     | `PLATFORM_DB` maps DJI Mavic 3 / Mini 4 / Matrice 30 → ICM-42688-P, but teardown reports suggest BMI088 as primary gyro. Verify with `bench_test.py --sweep` on a physical unit before targeting these platforms. |
 | INFO-01  | Low      | `ARCHITECTURE.md` references an older module count. Authoritative count is in `soul_gui.py`. |
 
 ---
