@@ -1,6 +1,10 @@
 <div align="center">
 
-<h1>🎵 SoulMusic</h1>
+<img src="https://github.com/user-attachments/assets/72701a81-9a9c-47c4-b1ae-8eec76581bb8" alt="The Cost of Inaction Is Measured in Lives" width="720" />
+
+<br><br>
+
+<h1>🛡️ SoulMusic</h1>
 
 <p>
   <img src="https://img.shields.io/badge/OPEN%20SOURCE-%C2%B7%20FREE%20TO%20BUILD%20%C2%B7%20USA%20LEGAL-1a2233?style=for-the-badge&labelColor=1a2233&color=2d4a6e" alt="Open Source · Free to Build · USA Legal" />
@@ -56,7 +60,7 @@ without RF emissions.
 
 ## 📋 Table of Contents
 
-1. [📸 Screenshots](#-screenshots)
+1. [🖼️ Screenshots](#️-screenshots)
 2. [⚡ Quick Start](#-quick-start)
 3. [📦 Requirements](#-requirements)
 4. [🖥️ Platform Support](#️-platform-support)
@@ -69,14 +73,14 @@ without RF emissions.
 8. [📁 Project Structure](#-project-structure)
 9. [🧪 Running Tests](#-running-tests)
 10. [🔌 Plugin API](#-plugin-api)
-11. [🤝 Contributing](#-contributing)
+11. [🔗 Contributing](#-contributing)
 12. [⚠️ Known Issues](#️-known-issues)
 13. [📄 License](#-license)
 14. [🚨 Disclaimer](#-disclaimer)
 
 ---
 
-## 📸 Screenshots
+## 🖼️ Screenshots
 
 > 📸 **Screenshots wanted!** See [`docs/screenshots/README.md`](docs/screenshots/README.md)
 > for capture guidelines and how to contribute.
@@ -392,7 +396,7 @@ callables using Python type hints (lower-fidelity, no descriptions or bounds).
 
 ---
 
-## 🤝 Contributing
+## 🔗 Contributing
 
 Contributions are welcome — bug reports, documentation improvements, new platform
 profiles, and plugin examples are all appreciated.
