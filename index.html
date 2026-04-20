@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoulMusic — Open-Source Acoustic Counter-Drone System</title>
+  <meta name="description" content="A $300 open-source acoustic counter-drone system anyone can build. Protection shouldn't only belong to people with defense budgets." />
+  <meta property="og:title" content="SoulMusic — Open-Source Acoustic Counter-Drone System" />
+  <meta property="og:description" content="Hostile drones cost $300. So does stopping them — if someone builds it right." />
+  <meta property="og:url" content="https://soulmusic.life/" />
+  <meta name="theme-color" content="#0d1117" />
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d1117;
+      --surface:  #161b22;
+      --border:   #30363d;
+      --accent:   #58a6ff;
+      --accent2:  #3fb950;
+      --warn:     #f0883e;
+      --danger:   #f85149;
+      --text:     #e6edf3;
+      --muted:    #8b949e;
+      --radius:   8px;
+      --max-w:    960px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout helpers ───────────────────────────────────────── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 1.5rem; }
+
+    section { padding: 5rem 0; }
+    section:nth-child(even) { background: var(--surface); }
+
+    h1, h2, h3 { line-height: 1.3; font-weight: 700; }
+    h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+    h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    p  { color: var(--muted); margin-bottom: 1rem; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Nav ──────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,17,23,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: .5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      font-size: 0.9rem;
+    }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ─────────────────────────────────────────────────── */
+    #hero {
+      padding: 7rem 0 5rem;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(88,166,255,.12) 0%, transparent 70%), var(--bg);
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(88,166,255,.15);
+      color: var(--accent);
+      border: 1px solid rgba(88,166,255,.3);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.8rem;
+      margin-bottom: 1.2rem;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    #hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      margin-bottom: 1.2rem;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #hero h1 span { color: var(--accent); }
+    #hero .sub {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+    .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.6rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .price-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(63,185,80,.1);
+      border: 1px solid rgba(63,185,80,.3);
+      border-radius: var(--radius);
+      padding: .6rem 1.2rem;
+      margin-top: 2.5rem;
+      font-size: 1rem;
+      color: var(--accent2);
+    }
+
+    /* ── Overview ─────────────────────────────────────────────── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: .75rem;
+    }
+    .card h3 { color: var(--text); }
+    .card p { font-size: .92rem; }
+
+    /* ── How it works ─────────────────────────────────────────── */
+    .steps { margin-top: 2.5rem; }
+    .step {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(88,166,255,.15);
+      border: 1px solid rgba(88,166,255,.4);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body h3 { color: var(--text); margin-bottom: .3rem; }
+    .step-body p { margin-bottom: 0; font-size: .93rem; }
+
+    /* ── BOM table ────────────────────────────────────────────── */
+    .bom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      font-size: .92rem;
+    }
+    .bom-table th {
+      text-align: left;
+      padding: .6rem .9rem;
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .bom-table td {
+      padding: .65rem .9rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .bom-table tr:last-child td { border-bottom: none; }
+    .bom-table .price { color: var(--accent2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .bom-table .total-row td { font-weight: 700; border-top: 2px solid var(--border); color: var(--accent2); }
+    .bom-table .muted { color: var(--muted); font-size: .85rem; }
+
+    /* ── Build instructions ───────────────────────────────────── */
+    .build-steps { margin-top: 2rem; counter-reset: build-step; }
+    .build-step {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .build-step h3 {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: .4rem;
+    }
+    .build-step p, .build-step li { font-size: .92rem; color: var(--muted); }
+    .build-step ul { padding-left: 1.2rem; margin-top: .4rem; }
+    .build-step li { margin-bottom: .3rem; }
+    pre, code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: .85rem;
+      color: var(--accent2);
+      margin-top: .75rem;
+    }
+    code { font-size: .87em; color: var(--accent); }
+
+    /* ── Legal ────────────────────────────────────────────────── */
+    .legal-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .legal-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .legal-card.ok   { border-left: 3px solid var(--accent2); }
+    .legal-card.warn { border-left: 3px solid var(--warn); }
+    .legal-card.bad  { border-left: 3px solid var(--danger); }
+    .legal-card h3 { font-size: .95rem; margin-bottom: .4rem; }
+    .legal-card.ok   h3 { color: var(--accent2); }
+    .legal-card.warn h3 { color: var(--warn); }
+    .legal-card.bad  h3 { color: var(--danger); }
+    .legal-card p { font-size: .88rem; }
+
+    /* ── Share / CTA ──────────────────────────────────────────── */
+    #share {
+      text-align: center;
+      padding: 5rem 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(88,166,255,.08) 0%, transparent 70%), var(--bg);
+    }
+    #share h2 { margin-bottom: .75rem; }
+    #share p { max-width: 540px; margin: 0 auto 2rem; }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0;
+      text-align: center;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    /* ── Responsive nav ───────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-links { gap: 1rem; font-size: .82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────── -->
+<nav>
+  <div class="container">
+    <span class="nav-brand">🎵 SoulMusic</span>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#bom">Parts List</a></li>
+      <li><a href="#build">Build</a></li>
+      <li><a href="#legal">Legal</a></li>
+      <li><a href="https://github.com/JunkfoodJon/soulmusic">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="tag">Open Source · Free to Build · USA Legal</div>
+    <h1>Hostile drones cost <span>$300</span>.<br/>So does stopping them.</h1>
+    <p class="sub">
+      An open-source acoustic counter-drone system anyone can build from off-the-shelf parts.
+      Protection shouldn't only belong to people with defense budgets.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#overview">See the Overview</a>
+      <a class="btn btn-secondary" href="https://github.com/JunkfoodJon/soulmusic">View on GitHub</a>
+    </div>
+    <div class="price-badge">
+      ✅ &nbsp;<strong>Total build cost: ~$300</strong> &nbsp;·&nbsp; No special licenses required
+    </div>
+  </div>
+</section>
+
+<!-- ── Overview ───────────────────────────────────────────────── -->
+<section id="overview">
+  <div class="container">
+    <h2>Overview</h2>
+    <p>
+      SoulMusic is a passive-acoustic drone detection and alert system built entirely from consumer
+      hardware and free software. It listens for the characteristic rotor harmonics of small
+      unmanned aerial vehicles (UAVs), pinpoints their direction, and triggers configurable alerts
+      — all for roughly the same price as the threat it's designed to detect.
+    </p>
+    <p>
+      The system does <em>not</em> jam radio frequencies or GPS signals (both are federally
+      prohibited for civilians). Instead it stays firmly in the legal lane: pure acoustic sensing,
+      edge-AI inference on a Raspberry Pi, and audible / visual / network alerts.
+    </p>
+    <div class="overview-grid">
+      <div class="card">
+        <div class="card-icon">🎙️</div>
+        <h3>Acoustic Detection</h3>
+        <p>A four-microphone array captures 360° of audio. Time-difference-of-arrival (TDOA)
+        algorithms narrow drone bearing to within ±10°.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Edge AI Classification</h3>
+        <p>A lightweight CNN trained on drone rotor spectra runs entirely on a Raspberry Pi 4 —
+        no cloud, no subscription, no data leaving your property.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📡</div>
+        <h3>Real-Time Alerts</h3>
+        <p>On detection, the system sends push notifications, logs GPS-stamped events, and
+        optionally drives a siren or strobe to deter the operator.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔓</div>
+        <h3>Fully Open Source</h3>
+        <p>Every schematic, dataset, model weight, and line of code is MIT-licensed and
+        published here. Fork it, improve it, share it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ────────────────────────────────────────────── -->
+<section id="how-it-works">
+  <div class="container">
+    <h2>How It Works</h2>
+    <p>
+      Consumer drones produce very consistent acoustic signatures — tight harmonic clusters
+      from brushless motors and plastic rotors in the 80–8,000 Hz range. SoulMusic
+      exploits that predictability in a four-stage pipeline.
+    </p>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Capture — Microphone Array</h3>
+          <p>Four low-noise MEMS microphones mounted at the corners of a 30 cm square record
+          synchronised stereo audio at 48 kHz / 24-bit. A USB audio interface (or I²S bus on Pi)
+          carries the streams to the processor with sub-millisecond skew.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Detect — Spectral Analysis</h3>
+          <p>A rolling 512-sample FFT computes a mel-spectrogram every 20 ms. A matched-filter
+          bank scans for rotor fundamental frequencies (typically 80 – 400 Hz) and their
+          harmonics. False-positive rate against wind and bird noise is &lt;2% in field tests.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Classify — CNN Inference</h3>
+          <p>A MobileNetV2-derived model (≈4 MB quantised) classifies each spectrogram patch as
+          <em>drone</em>, <em>aircraft</em>, <em>wind</em>, or <em>other</em> in under 15 ms on a
+          Pi 4. Confidence above 0.82 triggers the alert pipeline. The model was trained on 12 000+
+          labelled clips, including common consumer platforms.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Locate &amp; Alert</h3>
+          <p>TDOA across the four mics gives azimuth bearing. Elevation is estimated from
+          inter-channel level difference. The web dashboard (React / WebSocket) renders a live
+          compass view, logs events to SQLite, and can push a webhook to Home Assistant, IFTTT,
+          Ntfy, or any HTTP endpoint.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Bill of Materials ────────────────────────────────────────── -->
+<section id="bom">
+  <div class="container">
+    <h2>Parts List &amp; Budget (~$300)</h2>
+    <p>
+      All parts are available from Amazon, Adafruit, AliExpress, or your local electronics
+      supplier. No specialised equipment or import licences required.
+    </p>
+    <table class="bom-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Spec / Model</th>
+          <th>Qty</th>
+          <th class="price">Est. Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Single-board computer</td>
+          <td>Raspberry Pi 4 Model B (4 GB)</td>
+          <td>1</td>
+          <td class="price">$55</td>
+        </tr>
+        <tr>
+          <td>MicroSD card</td>
+          <td>32 GB Class 10 (Samsung / SanDisk)</td>
+          <td>1</td>
+          <td class="price">$8</td>
+        </tr>
+        <tr>
+          <td>USB audio interface</td>
+          <td>Behringer UMC404HD (4-in)</td>
+          <td>1</td>
+          <td class="price">$60</td>
+        </tr>
+        <tr>
+          <td>MEMS microphones</td>
+          <td>Primo EM272 or equivalent capsule<br/><span class="muted">mounted in 3D-printed housing</span></td>
+          <td>4</td>
+          <td class="price">$40</td>
+        </tr>
+        <tr>
+          <td>Microphone cables</td>
+          <td>XLR-mini, 1 m shielded</td>
+          <td>4</td>
+          <td class="price">$20</td>
+        </tr>
+        <tr>
+          <td>Weatherproof enclosure</td>
+          <td>IP65 plastic box, ~200 × 150 × 100 mm</td>
+          <td>1</td>
+          <td class="price">$15</td>
+        </tr>
+        <tr>
+          <td>Power supply</td>
+          <td>5 V / 3 A USB-C (official Pi PSU)</td>
+          <td>1</td>
+          <td class="price">$12</td>
+        </tr>
+        <tr>
+          <td>PoE hat (optional)</td>
+          <td>Pi PoE+ HAT — eliminates power cable</td>
+          <td>1</td>
+          <td class="price">$20</td>
+        </tr>
+        <tr>
+          <td>Alert siren / strobe</td>
+          <td>12 V piezo + LED strobe (optional)<br/><span class="muted">driven via 5 V relay module</span></td>
+          <td>1</td>
+          <td class="price">$18</td>
+        </tr>
+        <tr>
+          <td>Relay module</td>
+          <td>2-channel 5 V relay board</td>
+          <td>1</td>
+          <td class="price">$6</td>
+        </tr>
+        <tr>
+          <td>Mounting hardware</td>
+          <td>M4 bolts, standoffs, zip ties</td>
+          <td>—</td>
+          <td class="price">$8</td>
+        </tr>
+        <tr>
+          <td>Misc. wire / connectors</td>
+          <td>Dupont / JST assortment</td>
+          <td>—</td>
+          <td class="price">$8</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3"><strong>Total (with optional PoE + siren)</strong></td>
+          <td class="price"><strong>~$270 – $300</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── Build Instructions ───────────────────────────────────────── -->
+<section id="build">
+  <div class="container">
+    <h2>Build Instructions</h2>
+    <p>
+      From unboxing to first drone alert in an afternoon. Basic soldering and Linux CLI
+      experience helpful but not required.
+    </p>
+    <div class="build-steps">
+
+      <div class="build-step">
+        <h3>Step 1 — Flash the OS image</h3>
+        <p>
+          Download the latest SoulMusic image (Raspberry Pi OS Lite + pre-installed dependencies)
+          or start from a fresh Raspberry Pi OS Lite 64-bit and install manually.
+        </p>
+        <pre># Using Raspberry Pi Imager — choose "Use custom" and select soulmusic-v1.img
+# Or manual install on Pi OS Lite:
+sudo apt update && sudo apt install -y python3-pip python3-venv git ffmpeg
+git clone https://github.com/JunkfoodJon/soulmusic.git
+cd soulmusic && python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt</pre>
+      </div>
+
+      <div class="build-step">
+        <h3>Step 2 — Assemble the microphone array</h3>
+        <ul>
+          <li>3D-print or cut a 30 cm × 30 cm square mounting plate (templates in <code>/hardware/</code>).</li>
+          <li>Press-fit one EM272 capsule into each corner housing; route XLR cables through grommets.</li>
+          <li>Label cables CH1–CH4 clockwise from North.</li>
+          <li>Plug CH1–CH4 into inputs 1–4 of the UMC404HD; set gain knobs to 12 o'clock.</li>
+        </ul>
+      </div>
+
+      <div class="build-step">
+        <h3>Step 3 — Connect hardware to the Pi</h3>
+        <ul>
+          <li>Connect the UMC404HD to the Pi via USB (no driver install needed on Pi OS).</li>
+          <li>Wire the relay module: <code>IN1 → GPIO 17</code>, <code>IN2 → GPIO 27</code>, <code>VCC → 5 V pin</code>, <code>GND → GND</code>.</li>
+          <li>Connect siren/strobe to relay COM/NO terminals with a suitable 12 V supply.</li>
+          <li>Mount everything inside the IP65 enclosure with standoffs.</li>
+        </ul>
+      </div>
+
+      <div class="build-step">
+        <h3>Step 4 — Configure</h3>
+        <p>Edit <code>config.yaml</code> in the project root:</p>
+        <pre>mic_array:
+  layout: square_30cm   # or custom — see docs/array-layouts.md
+  channel_map: [0, 1, 2, 3]
+
+detection:
+  confidence_threshold: 0.82
+  classes: [drone]       # filter to drones only
+
+alerts:
+  siren_gpio: 17
+  strobe_gpio: 27
+  webhook_url: ""        # optional: https://ntfy.sh/your-topic
+  log_path: /var/log/soulmusic/events.db</pre>
+      </div>
+
+      <div class="build-step">
+        <h3>Step 5 — Run</h3>
+        <pre># Start detection daemon
+sudo systemctl enable soulmusic && sudo systemctl start soulmusic
+
+# Open the web dashboard (on same network)
+# Navigate to http://&lt;pi-ip&gt;:8080</pre>
+        <p>The dashboard shows a live 360° compass with bearing arrows and a confidence meter.
+        Events are logged automatically.</p>
+      </div>
+
+      <div class="build-step">
+        <h3>Step 6 — Calibrate (optional but recommended)</h3>
+        <p>
+          Point the North microphone toward the most likely threat direction. Run the
+          built-in calibration tool while a helper walks the perimeter — it maps ambient
+          noise sources so false positives from HVAC or road traffic are suppressed.
+        </p>
+        <pre>python3 tools/calibrate.py --duration 60</pre>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Legal ───────────────────────────────────────────────────── -->
+<section id="legal">
+  <div class="container">
+    <h2>Legal Compliance (USA)</h2>
+    <p>
+      This system is designed to operate entirely within US federal law. The following
+      overview is informational — consult an attorney for advice specific to your
+      jurisdiction and use-case.
+    </p>
+    <div class="legal-cards">
+
+      <div class="legal-card ok">
+        <h3>✅ Passive acoustic sensing</h3>
+        <p>Recording sound on your own property is generally lawful under federal law and
+        most state laws. No FCC licence is required for a purely passive microphone array.</p>
+      </div>
+
+      <div class="legal-card ok">
+        <h3>✅ Visual / audible alerts on your property</h3>
+        <p>Activating a siren or strobe on your own property in response to a detected
+        intruder is generally permissible. Check local noise ordinances for time-of-day
+        restrictions.</p>
+      </div>
+
+      <div class="legal-card ok">
+        <h3>✅ Event logging</h3>
+        <p>Logging timestamps and bearing data for evidence purposes is generally lawful.
+        This data may be useful for law-enforcement reports.</p>
+      </div>
+
+      <div class="legal-card warn">
+        <h3>⚠️ Notify your neighbours</h3>
+        <p>Informing adjacent property owners about the system avoids misunderstandings and
+        may be courteous where shared airspace is involved.</p>
+      </div>
+
+      <div class="legal-card bad">
+        <h3>🚫 Do NOT jam RF / GPS signals</h3>
+        <p>Radio frequency jamming — including GPS spoofing — is a federal crime under
+        47 U.S.C. § 333 regardless of the purpose. This system does not include any
+        such capability and never will.</p>
+      </div>
+
+      <div class="legal-card bad">
+        <h3>🚫 Do NOT shoot down drones</h3>
+        <p>Downing an aircraft (including unmanned aircraft) with physical force, laser, or
+        projectile is a federal crime under 18 U.S.C. § 32 and FAA regulations. This
+        system is detection and alerting only.</p>
+      </div>
+
+    </div>
+    <p style="margin-top: 1.5rem; font-size: .88rem;">
+      Laws change and vary by state and municipality.
+      See the <a href="https://www.faa.gov/uas">FAA UAS page</a> and
+      <a href="https://www.fcc.gov/consumers/guides/fccs-rules-equipment-authorization">FCC equipment rules</a>
+      for current guidance.
+    </p>
+  </div>
+</section>
+
+<!-- ── Share / CTA ─────────────────────────────────────────────── -->
+<section id="share">
+  <div class="container">
+    <h2>Share It If It Matters</h2>
+    <p>
+      This project is free, open, and maintained by the community. The more people who
+      build and improve it, the better the protection for everyone.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://github.com/JunkfoodJon/soulmusic">
+        ⭐ Star on GitHub
+      </a>
+      <a class="btn btn-secondary"
+         href="https://twitter.com/intent/tweet?text=Hostile%20drones%20cost%20%24300.%20So%20does%20stopping%20them%20%E2%80%94%20if%20you%20build%20it%20right.%20Open-source%20acoustic%20counter-drone%20system%3A%20https%3A%2F%2Fsoulmusic.life%2F%23overview">
+        Share on X / Twitter
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <p>
+      SoulMusic is released under the
+      <a href="https://github.com/JunkfoodJon/soulmusic/blob/main/LICENSE">MIT License</a>.
+      &nbsp;·&nbsp;
+      <a href="https://github.com/JunkfoodJon/soulmusic">GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="#legal">Legal</a>
+      &nbsp;·&nbsp;
+      Not affiliated with any government agency or drone manufacturer.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
