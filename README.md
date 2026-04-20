@@ -189,7 +189,7 @@ def run(context: dict) -> None:
 ---
 
 ## License
-
+SoulMusic Ethical Use License (SEUL) v2.0
 See [LICENSE](LICENSE).
 
 Copyright (c) 2024 SoulMusic Contributors.
